@@ -45,8 +45,8 @@ class SearchQuery(BaseModel):
 
 class Ai:
     def __init__(self):
-        self.netflex_csv_path = "/Users/d.h/python/csv, json file/netflix_titles.csv"
-        self.catagory_json_path = "/Users/d.h/python/csv, json file/catagory.json"
+        self.netflex_csv_path = "/Users/d.h/dev/git-archive/personal/gemini_chatbot/netflix_titles.csv"
+        self.catagory_json_path = "/Users/d.h/dev/git-archive/personal/gemini_chatbot/catagory.json"
         self.api_key = os.environ["GEMINI_API_KEY"]
 
         self.df = pd.read_csv(self.netflex_csv_path, index_col=0)
@@ -131,7 +131,7 @@ class Ai:
             try:
                 data = result.to_dict(orient='records')
 
-                with open("/Users/d.h/python/csv, json file/extract_from_netflex.json", mode='w', encoding='utf-8') as f:
+                with open("/Users/d.h/dev/git-archive/personal/gemini_chatbot/extract_from_netflex.json", mode='w', encoding='utf-8') as f:
                     json.dump(data, f, indent=4, ensure_ascii=False)
 
             except Exception:
@@ -144,26 +144,23 @@ class Ai:
         data = extract_input(keyword_result)
 
         def answer(data, user_input):
-            print(
-                f"=== '{user_input}' 검색 결과 {len(data)}개의 알맞은 프로그램을 찾았어요. ==='"
-            )
-            for i, row in enumerate(data, 1):
-                print(
-                    f"-{i}-\n",
-                    f"type: {row['type']}",
-                    f"title: {row['title']}",
-                    f"director: {row['director']}",
-                    f"cast: {row['cast']}",
-                    f"country: {row['country']}",
-                    f"date_added: {row['date_added']}",
-                    f"release_year: {row['release_year']}",
-                    f"rating: {row['rating']}",
-                    f"duration: {row['duration']}",
-                    f"genres: {row['listed_in']}",
-                    f"description: {row['description']}",
-                    sep="\n", end="\n\n"
-                )
+            prompt = f"""
+            {data}안에 있는 데이터만으로 답변을 할거야.
+            그냥 보기좋고 간결하게 정리해서 보여줘"""
 
+            try:
+                response = client.models.generate_content(
+                    #model='gemini-3.8-flash',
+                    model='gemini-3.5-flash-lite',
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        temperature=0,
+                        ),
+                        )
+                print(response.text)
+            except Exception:
+                logger.exception("error: ")
+                
         answer(data, user_input)
 
 

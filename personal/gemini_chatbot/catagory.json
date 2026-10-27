@@ -1,18 +1,12 @@
 {
-    "type": "Movie",
+    "type": null,
     "title": [],
     "director": [],
     "cast": [],
     "country": [],
-    "listed_in": [
-        "Dramas",
-        "Romantic Movies"
-    ],
+    "listed_in": [],
     "year_from": null,
     "year_to": null,
     "release_year": null,
-    "description": [
-        "sad",
-        "movie"
-    ]
+    "description": []
 }
