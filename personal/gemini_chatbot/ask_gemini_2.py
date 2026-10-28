@@ -224,7 +224,7 @@ class Poo:
             print("저장된 벡터 불러옴.")
         else:
             print("벡터를 만듭니다.")
-            doc_vectors = embed("RETRIEVAL_DOCUMENT")
+            doc_vectors = self.embed("RETRIEVAL_DOCUMENT")
             np.save(self.embedding_path, doc_vectors)
             print("저장 완료:", doc_vectors.shape)
 

@@ -49,17 +49,16 @@ class Embedd:
         return vectors / np.linalg.norm(vectors, axis=1, keepdims=True)
 
     def vector_ready(self):
-        saved = np.load(self.embedding_path)
-
         if os.path.exists(self.embedding_path):
             doc_vectors = np.load(self.embedding_path)
             print("저장된 벡터를 불러옴.", doc_vectors.shape)
-        elif len(saved) == len(self.docs):
+        else:
             print("벡터를 만듭니다.")
             doc_vectors = self.embed("RETRIEVAL_DOCUMENT")
             np.save(self.embedding_path, doc_vectors)
-            print("저장 완료:", doc_vectors.shape)
-            print(doc_vectors)
+        print(f"저장 완료:, {doc_vectors.shape}")
+        print(f"정규화 확인: {np.linalg.norm(doc_vectors, axis=1)}")
+        print((doc_vectors @ doc_vectors.T).round(3))
 
 
 if __name__ == "__main__":
