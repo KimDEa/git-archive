@@ -1,18 +1,14 @@
 import pandas as pd
 import numpy as np
-from google import genai
-from google.genai import types
 import os
+import ollama
 from dotenv import load_dotenv
 load_dotenv()
 
 
 class Embedd:
-    MODEL = "gemini-embedding-001"
-    DIM = 768          # 벡터 길이 (숫자 몇 개로 표현할지)
-    SAMPLE = 300       # 공부용으로 앞에서 300개만 사용 (전체는 시간이 오래 걸림)
-    TOP_K = 5          # 결과를 몇 개 보여줄지
-    MIN_SCORE = 0.5    # 이 점수보다 낮으면 관련 없다고 보고 버림
+    MODEL = "bge-m3"
+    BATCH = 100
 
     def __init__(self):
         self.docs = [
